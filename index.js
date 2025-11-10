@@ -42,7 +42,12 @@ async function run() {
         })
     })
 
-    
+    // user transaction
+    app.get('/my-transaction', async(req, res)=>{
+        const email = req.query.email;
+        const result = await managementCollection.find({userEmail: email}).toArray()
+        res.send(result)
+    })
 
 
 
