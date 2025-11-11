@@ -44,9 +44,17 @@ async function run() {
 
     // user transaction
     app.get('/my-transaction', async(req, res)=>{
+     
+        try {
         const email = req.query.email;
-        const result = await managementCollection.find({userEmail: email}).toArray()
+        const sortBy = req.query.sortBy || 'createAt';
+         const sortOrder = req.query.order === 'asc' ? 1 : -1;
+
+        const result = await managementCollection.find({userEmail: email}).sort({[sortBy]: sortOrder}).toArray();
         res.send(result)
+        } catch (error) {
+          console.log(error);
+        }
     })
 
     // delete transaction
