@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const port = process.env.PORT || 3000;
 
 app.use(cors())
@@ -47,6 +47,35 @@ async function run() {
         const email = req.query.email;
         const result = await managementCollection.find({userEmail: email}).toArray()
         res.send(result)
+    })
+
+    // delete transaction
+    app.delete('/transactions/:id', async(req,res)=>{
+        const {id} = req.params
+        const objectId = new ObjectId(id)
+        const filter = {_id: objectId}
+        
+        const result = await managementCollection.deleteOne(filter);
+        res.send ({
+            success: true,
+            result
+        })
+    })
+
+    // User update
+    app.put('/transactions/:id', async(req, res)=>{
+      const {id} = req.params;
+      const data = req.body;
+      const objectId =  new ObjectId(id)
+      const filter = {_id: objectId}
+      const update = {
+        $set: data
+      }
+      const result = await managementCollection.updateOne(filter, update)
+      res.send({
+        success: true,
+        result
+      })
     })
 
 
