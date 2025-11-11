@@ -78,6 +78,18 @@ async function run() {
       })
     })
 
+    // transaction by id
+    app.get('/transactions/:id', async(req, res)=>{
+      const {id} = req.params;
+      const objectId =  new ObjectId(id)
+      const filter = {_id: objectId}
+      const result = await managementCollection.findOne(filter)
+      res.send({
+        success: true,
+        result
+      })
+    })
+
 
 
     // Send a ping to confirm a successful connection
