@@ -114,10 +114,35 @@ async function run() {
       })
     })
 
+    // overview
+    app.get('/overview', async(req, res)=>{
+      const email = req.query.email;
+      const collections = await managementCollection.find({userEmail: email}).toArray();
+
+      let income = 0;
+      let expense = 0;
+      console.log(collections);
+      collections.forEach((transaction)=>{
+        if(transaction.type === 'income'){
+          income += Number(transaction.amount)
+        }
+        else if(transaction.type === 'expense'){
+          expense += Number(transaction.amount);
+        }
+      })
+      const balance = income - expense;
+
+      res.send({
+        totalIncome: income,
+        totalExpense: expense,
+        totalBalance: balance
+      })
+    })
+
 
 
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
+    // await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
