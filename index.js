@@ -86,9 +86,25 @@ async function run() {
       })
     })
 
-    // transaction by id
-    app.get('/transactions/:id', async(req, res)=>{
+   
+
+    // transaction by category
+    app.get('/transactions/category/:category', async(req, res)=>{
+      const {category} = req.params;
+      console.log(category);
+      // const objectId =  new ObjectId()
+      const filter = {category}
+      const result = await managementCollection.find(filter).toArray();
+      res.send({
+        success: true,
+        result
+      })
+    })
+
+    // user by id
+     app.get('/transactions/:id', async(req, res)=>{
       const {id} = req.params;
+      // console.log(id);
       const objectId =  new ObjectId(id)
       const filter = {_id: objectId}
       const result = await managementCollection.findOne(filter)
