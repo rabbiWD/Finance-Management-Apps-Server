@@ -26,7 +26,7 @@ app.get('/', (req, res)=>{
 
 async function run() {
   try {
-    await client.connect();
+    // await client.connect();
 
     const db = client.db('ManagementDBUser')
     const managementCollection = db.collection('transactions')
