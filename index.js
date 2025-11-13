@@ -8,8 +8,6 @@ const port = process.env.PORT || 3000;
 app.use(cors())
 app.use(express.json())
 
-// ManagementDBUser
-// V3qRSd4dj6hg98Vq
 
 console.log();
 
